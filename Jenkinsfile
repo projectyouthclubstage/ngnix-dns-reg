@@ -72,7 +72,7 @@ stages{
                       sh "cat docker-compose-template.yml | sed -e 's/{version}/"+"$BUILD_NUMBER"+"/g' >> target/docker-compose.yml"
                       //dockerImage = docker.build registry + ":$BUILD_NUMBER"
                       //dockerImage.push()
-                      //sh 'docker stack rm "$(docker stack ls |grep ngnix-dns-reg| cut -d \" \" -f1)"'
+                      sh 'docker stack rm "$(docker stack ls |grep ngnix-dns-reg| cut -d \" \" -f1)"'
                       sh "docker stack deploy --compose-file target/docker-compose.yml ngnix-dns-reg-"+"$BUILD_NUMBER"
                      }
                    }
