@@ -3,9 +3,18 @@ spring:
 redis:
   server: 192.168.233.1
   port: 6379
+template:
+   sites-path: /home/sascha/dev/github/ngnix-dns-reg/target/
+   template-path: /home/sascha/dev/github/ngnix-dns-reg/src/main/resources/templates
+   certsPath: /home/sascha
+
 ---
 spring:
   profiles: docker
 redis:
   server: ${REDISSERVER}
   port: ${REDISPORT}
+template:
+  sitesPath: /etc/nginx-config/config/sites
+  templatePath: /etc/nginx-config/config/template
+  certsPath: /etc/nginx/certs

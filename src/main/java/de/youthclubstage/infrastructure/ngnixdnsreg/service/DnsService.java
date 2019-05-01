@@ -17,12 +17,15 @@ import java.util.UUID;
 public class DnsService {
     private final DnsRepository dnsRepository;
     private final DnsMapper dnsMapper;
+    private final TemplateService templateService;
 
 
     @Autowired
-    public DnsService(DnsRepository dnsRepository,DnsMapper dnsMapper){
+    public DnsService(DnsRepository dnsRepository,DnsMapper dnsMapper,
+                      TemplateService templateService){
         this.dnsRepository = dnsRepository;
         this.dnsMapper = dnsMapper;
+        this.templateService = templateService;
     }
 
     public void createDns(DnsCreateUpdateDto dnsCreateUpdateDto){
@@ -30,6 +33,7 @@ public class DnsService {
         if(current.size() != 0){
             dnsRepository.deleteAll(current);
         }
+        templateService.writeTemplate(dnsCreateUpdateDto.getSource(),dnsCreateUpdateDto.getTarget());
         dnsRepository.save(dnsMapper.toEntity(dnsCreateUpdateDto));
     }
 
@@ -39,6 +43,11 @@ public class DnsService {
     }
 
     public void delete(UUID id){
+        Optional<DnsEntry> dnsEntry =  dnsRepository.findById(id);
+        if(!dnsEntry.isPresent()){
+            throw new RuntimeException("Not Found");
+        }
+        templateService.delete(dnsEntry.get().getSource());
         dnsRepository.deleteById(id);
     }
 
