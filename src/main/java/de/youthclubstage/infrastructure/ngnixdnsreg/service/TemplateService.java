@@ -31,7 +31,7 @@ public class TemplateService {
         templateTarget = templateTarget.replace("{var.certpath}",templateProperties.getCertsPath());
 
         try {
-            writeFile(templateProperties.getSitesPath()+"/"+source,templateTarget, Charset.defaultCharset());
+            writeFile(templateProperties.getSitesPath()+"/"+source+".conf",templateTarget, Charset.defaultCharset());
         } catch (IOException e) {
             throw new RuntimeException("Fehler beim Schreiben",e);
         }
@@ -75,7 +75,7 @@ public class TemplateService {
     }
 
     public void delete(String source){
-        deleteFile(templateProperties.getSitesPath()+"/"+source);
+        deleteFile(templateProperties.getSitesPath()+"/"+source+".conf");
     }
 
     private void deleteFile(String path) {
