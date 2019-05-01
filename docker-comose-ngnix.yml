@@ -7,7 +7,7 @@ services:
     volumes:
     - 'ngnix:/etc/nginx/sites-enabled'
     - 'certs:/etc/nginx/certs'
-    container_name: ngnix-server-{version}
+    container_name: ngnix-server
     image: arm32v7/nginx
     networks:
     - dev

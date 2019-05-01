@@ -2,7 +2,7 @@ version: "3"
 services:
   ngnix-dns-reg-{version}:
     environment:
-    - REDISSERVER=redis
+    - REDISSERVER=redis_redis.1.ckgxzjrgzyg1oc8s1pbfacysf
     - REDISPORT=6379
     ports:
     - "9099:8080"
