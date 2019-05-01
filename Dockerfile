@@ -10,4 +10,4 @@ RUN chmod -R 770 /etc/ngnix-config
 COPY ./target/ngnix-dns-reg-*.jar /etc/ngnix-config/app/ngnix-dns-reg.jar
 USER www-data
 EXPOSE 8080
-CMD java -jar /etc/ngnix-config/app/ngnix-dns-reg.jar
+CMD java -Dspring.profiles.active=docker -jar /etc/ngnix-config/app/ngnix-dns-reg.jar
