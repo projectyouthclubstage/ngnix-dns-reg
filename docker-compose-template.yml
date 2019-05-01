@@ -8,7 +8,7 @@ services:
     - "9099:8080"
     container_name: ngnix-dns-reg-{version}
     volumes:
-    - 'ngnix:/etc/nginx-config/config/sites'
+    - 'sites:/etc/nginx-config/config/sites'
     - 'templates:/etc/nginx-config/config/template'
     build:
       context: .
@@ -16,19 +16,8 @@ services:
     image: 192.168.233.1:5000/ngnix-dns-reg:{version}
     networks:
     - dev
-  ngnix-{version}:
-    ports:
-    - "80:80"
-    - "443:443"
-    volumes:
-    - 'ngnix:/etc/nginx/sites-enabled'
-    - 'certs:/etc/nginx/certs'
-    container_name: ngnix-server-{version}
-    image: arm32v7/nginx
-    networks:
-    - dev
 volumes:
-  ngnix:
+  sites:
     driver_opts:
       type: "nfs"
       o: "addr=192.168.233.1,nolock,soft,rw"
@@ -38,11 +27,6 @@ volumes:
       type: "nfs"
       o: "addr=192.168.233.1,nolock,soft,rw"
       device: ":/docker/nginx/templates"
-  certs:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.233.1,nolock,soft,rw"
-      device: ":/docker/nginx/certs"
 networks:
   dev:
     external:

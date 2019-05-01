@@ -1,0 +1,28 @@
+version: "3"
+services:
+  ngnix:
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - 'ngnix:/etc/nginx/sites-enabled'
+    - 'certs:/etc/nginx/certs'
+    container_name: ngnix-server-{version}
+    image: arm32v7/nginx
+    networks:
+    - dev
+volumes:
+  ngnix:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.233.1,nolock,soft,rw"
+      device: ":/docker/nginx/sites"
+  certs:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.233.1,nolock,soft,rw"
+      device: ":/docker/nginx/certs"
+networks:
+  dev:
+    external:
+      name: dev
