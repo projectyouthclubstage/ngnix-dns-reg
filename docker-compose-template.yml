@@ -2,11 +2,10 @@ version: "3"
 services:
   ngnix-dns-reg-{version}:
     environment:
-    - REDISSERVER=redis_redis.1.ckgxzjrgzyg1oc8s1pbfacysf
+    - REDISSERVER=redis
     - REDISPORT=6379
     ports:
     - "9099:8080"
-    container_name: ngnix-dns-reg-{version}
     volumes:
     - 'sites:/etc/nginx-config/config/sites'
     - 'templates:/etc/nginx-config/config/template'
@@ -15,7 +14,9 @@ services:
       dockerfile: ../Dockerfile
     image: 192.168.233.1:5000/ngnix-dns-reg:{version}
     networks:
-    - dev
+      dev:
+        aliases:
+        - ngnix-dns-reg-{version}
 volumes:
   sites:
     driver_opts:
