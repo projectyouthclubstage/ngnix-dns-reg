@@ -7,8 +7,10 @@ cors:
   allowedOrigins: '*'
   allowedHeaders:
     - Authorization
+    - Content-Type
   exposedHeaders:
-    - X-TEST
+    - Authorization
+    - Content-Type
 template:
    sites-path: /home/sascha/dev/github/ngnix-dns-reg/target/
    template-path: /home/sascha/dev/github/ngnix-dns-reg/src/main/resources/templates
@@ -24,8 +26,10 @@ cors:
   allowedOrigins: '*'
   allowedHeaders:
     - Authorization
+    - Content-Type
   exposedHeaders:
-    - X-TEST
+    - Authorization
+    - Content-Type
 template:
   sitesPath: /etc/nginx-config/config/sites
   templatePath: /etc/nginx-config/config/template
