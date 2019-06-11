@@ -3,6 +3,12 @@ spring:
 redis:
   server: 192.168.233.1
   port: 6379
+cors:
+  allowedOrigins: '*'
+  allowedHeaders:
+    - Authorization
+  exposedHeaders:
+    - X-TEST
 template:
    sites-path: /home/sascha/dev/github/ngnix-dns-reg/target/
    template-path: /home/sascha/dev/github/ngnix-dns-reg/src/main/resources/templates
@@ -14,6 +20,12 @@ spring:
 redis:
   server: ${REDISSERVER}
   port: ${REDISPORT}
+cors:
+  allowedOrigins: '*'
+  allowedHeaders:
+    - Authorization
+  exposedHeaders:
+    - X-TEST
 template:
   sitesPath: /etc/nginx-config/config/sites
   templatePath: /etc/nginx-config/config/template
