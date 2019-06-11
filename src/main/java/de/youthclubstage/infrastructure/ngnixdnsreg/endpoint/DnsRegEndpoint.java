@@ -33,7 +33,7 @@ public class DnsRegEndpoint {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping( value = "dns/{id}", consumes = "application/json")
+    @DeleteMapping( value = "dns/{id}")
     ResponseEntity<Void> delete(@PathVariable("id") UUID id){
         dnsService.delete(id);
         return ResponseEntity.noContent().build();
