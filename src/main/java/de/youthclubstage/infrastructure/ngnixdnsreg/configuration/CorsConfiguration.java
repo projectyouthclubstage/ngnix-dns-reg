@@ -20,7 +20,8 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(corsConfigurationProperties.getAllowedOrigins())
                 .allowedHeaders(corsConfigurationProperties.getAllowedHeaders())
-                .exposedHeaders(corsConfigurationProperties.getExposedHeaders());
+                .exposedHeaders(corsConfigurationProperties.getExposedHeaders())
+                .allowedMethods("GET","PUT","POST","DELETE");
     }
 
 
