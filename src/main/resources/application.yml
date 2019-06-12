@@ -31,6 +31,6 @@ cors:
     - Authorization
     - Content-Type
 template:
-  sitesPath: /etc/nginx-config/config/sites
+  sitesPath: /etc/nginx/conf.d/
   templatePath: /etc/nginx-config/config/template
   certsPath: /etc/nginx/certs

@@ -5,9 +5,11 @@ services:
     - REDISSERVER=redis
     - REDISPORT=6379
     ports:
+    - "80:80"
+    - "443:443"
     - "9099:8080"
     volumes:
-    - 'sites:/etc/nginx-config/config/sites'
+    - 'certs:/etc/nginx/certs'
     - 'templates:/etc/nginx-config/config/template'
     build:
       context: .
@@ -18,16 +20,17 @@ services:
         aliases:
         - ngnix-dns-reg-{version}
 volumes:
-  sites:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.233.1,nolock,soft,rw"
-      device: ":/docker/nginx/sites"
   templates:
     driver_opts:
       type: "nfs"
       o: "addr=192.168.233.1,nolock,soft,rw"
       device: ":/docker/nginx/templates"
+  certs:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.233.1,nolock,soft,rw"
+      device: ":/docker/nginx/certs"
+
 networks:
   dev:
     external:
