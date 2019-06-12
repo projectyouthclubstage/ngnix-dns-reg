@@ -6,7 +6,9 @@ import de.youthclubstage.infrastructure.ngnixdnsreg.entity.DnsEntry;
 import de.youthclubstage.infrastructure.ngnixdnsreg.repository.DnsRepository;
 import de.youthclubstage.infrastructure.ngnixdnsreg.service.mapping.DnsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class DnsService {
     private final DnsRepository dnsRepository;
     private final DnsMapper dnsMapper;
     private final TemplateService templateService;
+
+    @Value("${spring.profiles.active:Unknown}")
+    private String activeProfile;
 
 
     @Autowired
@@ -47,13 +52,16 @@ public class DnsService {
 
     }
 
+
     @EventListener(ApplicationReadyEvent.class)
     public void writeAllEntries(){
-        List<DnsDto> all = getAll();
-        for (DnsDto dnsDto: all){
-            templateService.writeTemplate(dnsDto.getSource(),dnsDto.getTarget());
+        if(activeProfile.equalsIgnoreCase("docker")) {
+            List<DnsDto> all = getAll();
+            for (DnsDto dnsDto : all) {
+                templateService.writeTemplate(dnsDto.getSource(), dnsDto.getTarget());
+            }
+            reloadNgnix();
         }
-        reloadNgnix();
     }
 
 
