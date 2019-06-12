@@ -57,10 +57,9 @@ public class DnsService {
         if(activeProfile.equalsIgnoreCase("docker")) {
             List<DnsDto> all = getAll();
             for (DnsDto dnsDto : all) {
-                System.out.println(templateService);
-                System.out.println(dnsDto.getSource());
-                System.out.println(dnsDto.getTarget());
-                templateService.writeTemplate(dnsDto.getSource(), dnsDto.getTarget());
+               if(dnsDto != null) {
+                   templateService.writeTemplate(dnsDto.getSource(), dnsDto.getTarget());
+               }
             }
             reloadnginx();
         }
