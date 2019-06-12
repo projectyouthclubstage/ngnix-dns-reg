@@ -1,15 +1,13 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.service;
+package de.youthclubstage.infrastructure.nginxdnsreg.service;
 
-import de.youthclubstage.infrastructure.ngnixdnsreg.configuration.TemplateProperties;
+import de.youthclubstage.infrastructure.nginxdnsreg.configuration.TemplateProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 
 import static java.nio.file.StandardOpenOption.CREATE;

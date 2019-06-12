@@ -1,14 +1,13 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.service;
+package de.youthclubstage.infrastructure.nginxdnsreg.service;
 
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsCreateUpdateDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.entity.DnsEntry;
-import de.youthclubstage.infrastructure.ngnixdnsreg.repository.DnsRepository;
-import de.youthclubstage.infrastructure.ngnixdnsreg.service.mapping.DnsMapper;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsCreateUpdateDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.entity.DnsEntry;
+import de.youthclubstage.infrastructure.nginxdnsreg.repository.DnsRepository;
+import de.youthclubstage.infrastructure.nginxdnsreg.service.mapping.DnsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class DnsService {
         }
         templateService.writeTemplate(dnsCreateUpdateDto.getSource(),dnsCreateUpdateDto.getTarget());
         dnsRepository.save(dnsMapper.toEntity(dnsCreateUpdateDto));
-        reloadNgnix();
+        reloadnginx();
     }
 
     public List<DnsDto> getAll(){
@@ -60,12 +59,12 @@ public class DnsService {
             for (DnsDto dnsDto : all) {
                 templateService.writeTemplate(dnsDto.getSource(), dnsDto.getTarget());
             }
-            reloadNgnix();
+            reloadnginx();
         }
     }
 
 
-    private void reloadNgnix(){
+    private void reloadnginx(){
         executeBashCommand("kill -s HUP $(ps aux | grep 'nginx' | awk '{print $2}')");
     }
 
@@ -76,7 +75,7 @@ public class DnsService {
         }
         templateService.delete(dnsEntry.get().getSource());
         dnsRepository.deleteById(id);
-        reloadNgnix();
+        reloadnginx();
     }
 
     public static boolean executeBashCommand(String command) {

@@ -1,10 +1,9 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.repository;
+package de.youthclubstage.infrastructure.nginxdnsreg.repository;
 
-import de.youthclubstage.infrastructure.ngnixdnsreg.entity.DnsEntry;
+import de.youthclubstage.infrastructure.nginxdnsreg.entity.DnsEntry;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface DnsRepository extends CrudRepository<DnsEntry,UUID> {

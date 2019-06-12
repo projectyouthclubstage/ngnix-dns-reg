@@ -1,9 +1,9 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.endpoint;
+package de.youthclubstage.infrastructure.nginxdnsreg.endpoint;
 
 
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsCreateUpdateDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.service.DnsService;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsCreateUpdateDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.service.DnsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

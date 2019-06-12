@@ -2,7 +2,7 @@ pipeline{
 
 agent none
   environment {
-    registry = "192.168.233.1:5000/ngnix-dns-reg"
+    registry = "192.168.233.1:5000/nginx-dns-reg"
 
   }
 
@@ -73,11 +73,11 @@ stages{
                       //dockerImage = docker.build registry + ":$BUILD_NUMBER"
                       //dockerImage.push()
                       def version = sh (
-                          script: 'docker stack ls |grep ngnix-dns-reg| cut -d \" \" -f1',
+                          script: 'docker stack ls |grep nginx-dns-reg| cut -d \" \" -f1',
                           returnStdout: true
                       ).trim()
                       sh "docker stack rm "+version
-                      sh "docker stack deploy --compose-file target/docker-compose.yml ngnix-dns-reg-"+"$BUILD_NUMBER"
+                      sh "docker stack deploy --compose-file target/docker-compose.yml nginx-dns-reg-"+"$BUILD_NUMBER"
                      }
                    }
        }

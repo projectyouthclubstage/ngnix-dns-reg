@@ -1,18 +1,18 @@
 version: "3"
 services:
-  ngnix:
+  nginx:
     ports:
     - "80:80"
     - "443:443"
     volumes:
-    - 'ngnix:/etc/nginx/sites-enabled'
+    - 'nginx:/etc/nginx/sites-enabled'
     - 'certs:/etc/nginx/certs'
-    container_name: ngnix-server
+    container_name: nginx-server
     image: arm32v7/nginx
     networks:
     - dev
 volumes:
-  ngnix:
+  nginx:
     driver_opts:
       type: "nfs"
       o: "addr=192.168.233.1,nolock,soft,rw"

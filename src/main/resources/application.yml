@@ -12,8 +12,8 @@ cors:
     - Authorization
     - Content-Type
 template:
-   sites-path: /home/sascha/dev/github/ngnix-dns-reg/target/
-   template-path: /home/sascha/dev/github/ngnix-dns-reg/src/main/resources/templates
+   sites-path: /home/sascha/dev/github/nginx-dns-reg/target/
+   template-path: /home/sascha/dev/github/nginx-dns-reg/src/main/resources/templates
    certsPath: /home/sascha
 
 ---

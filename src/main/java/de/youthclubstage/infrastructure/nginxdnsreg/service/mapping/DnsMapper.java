@@ -1,8 +1,8 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.service.mapping;
+package de.youthclubstage.infrastructure.nginxdnsreg.service.mapping;
 
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsCreateUpdateDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model.DnsDto;
-import de.youthclubstage.infrastructure.ngnixdnsreg.entity.DnsEntry;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsCreateUpdateDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsDto;
+import de.youthclubstage.infrastructure.nginxdnsreg.entity.DnsEntry;
 import org.mapstruct.Mapper;
 
 import java.util.List;

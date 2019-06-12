@@ -1,4 +1,4 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.entity;
+package de.youthclubstage.infrastructure.nginxdnsreg.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

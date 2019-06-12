@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.youth-club-stage.infrastructure</groupId>
-	<artifactId>ngnix-dns-reg</artifactId>
+	<artifactId>nginx-dns-reg</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ngnix-dns-reg</name>
+	<name>nginx-dns-reg</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

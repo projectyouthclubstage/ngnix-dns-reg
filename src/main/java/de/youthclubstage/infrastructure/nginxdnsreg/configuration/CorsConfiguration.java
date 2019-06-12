@@ -1,4 +1,4 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.configuration;
+package de.youthclubstage.infrastructure.nginxdnsreg.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

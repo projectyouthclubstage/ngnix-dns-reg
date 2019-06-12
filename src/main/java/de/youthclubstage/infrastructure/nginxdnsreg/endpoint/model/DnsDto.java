@@ -1,4 +1,4 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.endpoint.model;
+package de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model;
 
 import lombok.Data;
 

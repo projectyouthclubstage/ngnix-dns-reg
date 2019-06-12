@@ -1,4 +1,4 @@
-package de.youthclubstage.infrastructure.ngnixdnsreg.service;
+package de.youthclubstage.infrastructure.nginxdnsreg.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
