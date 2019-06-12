@@ -8,6 +8,7 @@ RUN mkdir -pv \
 RUN chown -R www-data:www-data /etc/ngnix-config
 RUN chmod -R 770 /etc/ngnix-config
 COPY ./target/ngnix-dns-reg-*.jar /etc/ngnix-config/app/ngnix-dns-reg.jar
+COPY ./start.sh /etc/ngnix-config/app/start.sh
 USER www-data
 EXPOSE 8080
-CMD java -Dspring.profiles.active=docker -jar /etc/ngnix-config/app/ngnix-dns-reg.jar
+CMD /etc/ngnix-config/app/start.sh
