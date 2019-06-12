@@ -10,11 +10,11 @@ RUN mkdir -pv \
              /etc/nginx-config/app \
              /etc/nginx-config/config/sites \
              /etc/nginx-config/config/template
-RUN chown -R nginx:nginx /etc/nginx-config
+RUN chown -R www-data:www-data /etc/nginx-config
 RUN chmod -R 770 /etc/nginx-config
 COPY ./target/nginx-dns-reg-*.jar /etc/nginx-config/app/nginx-dns-reg.jar
 COPY ./docker-scripts/start.sh /etc/nginx-config/app/start.sh
 RUN chmod +x /etc/nginx-config/app/start.sh
-USER nginx
+USER www-data
 EXPOSE 80 443 8080
 CMD /etc/nginx-config/app/start.sh
