@@ -9,6 +9,7 @@ RUN chown -R www-data:www-data /etc/ngnix-config
 RUN chmod -R 770 /etc/ngnix-config
 COPY ./target/ngnix-dns-reg-*.jar /etc/ngnix-config/app/ngnix-dns-reg.jar
 COPY ./start.sh /etc/ngnix-config/app/start.sh
+RUN chmod +x /etc/ngnix-config/app/start.sh
 USER www-data
 EXPOSE 8080
 CMD /etc/ngnix-config/app/start.sh
