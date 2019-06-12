@@ -47,7 +47,8 @@ public class DnsService {
     }
 
     public List<DnsDto> getAll(){
-        return dnsMapper.toDto(new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll())));
+        List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
+        return dnsMapper.toDto(entries);
 
     }
 
