@@ -15,6 +15,5 @@ RUN chmod -R 770 /etc/nginx-config
 COPY ./target/nginx-dns-reg-*.jar /etc/nginx-config/app/nginx-dns-reg.jar
 COPY ./docker-scripts/start.sh /etc/nginx-config/app/start.sh
 RUN chmod +x /etc/nginx-config/app/start.sh
-USER www-data
 EXPOSE 80 443 8080
 CMD /etc/nginx-config/app/start.sh
