@@ -1,4 +1,4 @@
-FROM arm32v7/openjdk:8-jre-slim-stretch
+FROM arm32v7/openjdk:8-jre-stretch
 MAINTAINER Sascha Deeg <sascha.deeg@gmail.com>
 USER root
 COPY ./docker-scripts/ngnix.sh /root/ngnix.sh
