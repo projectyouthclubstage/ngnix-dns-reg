@@ -68,7 +68,7 @@ public class DnsService {
 
 
     private void reloadnginx(){
-        executeBashCommand("kill -s HUP 'cat /var/run/nginx.pid'");
+       // executeBashCommand("kill -s HUP 'cat /var/run/nginx.pid'");
     }
 
     public void delete(UUID id){
