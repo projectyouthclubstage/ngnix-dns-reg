@@ -1,4 +1,4 @@
-FROM armv7/armhf-java8:latest
+FROM arm32v7/openjdk:8-jre-slim-stretch
 MAINTAINER Sascha Deeg <sascha.deeg@gmail.com>
 USER root
 RUN mkdir -pv \
