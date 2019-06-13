@@ -117,6 +117,7 @@ public class DnsService {
                     }
 
                 }
+                dnsRepository.save(dnsEntry);
             }
             reloadnginx();
         }
