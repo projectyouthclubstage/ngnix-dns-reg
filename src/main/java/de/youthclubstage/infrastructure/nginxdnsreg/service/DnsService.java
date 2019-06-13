@@ -34,69 +34,100 @@ public class DnsService {
 
 
     @Autowired
-    public DnsService(DnsRepository dnsRepository,DnsMapper dnsMapper,
-                      TemplateService templateService){
+    public DnsService(DnsRepository dnsRepository, DnsMapper dnsMapper,
+                      TemplateService templateService) {
         this.dnsRepository = dnsRepository;
         this.dnsMapper = dnsMapper;
         this.templateService = templateService;
     }
 
-    public boolean checkTarget(DnsEntry dnsEntry){
+    public boolean checkTarget(DnsEntry dnsEntry) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             final String response = restTemplate.getForObject("http://" + dnsEntry.getTarget(), String.class);
-        }catch (UnknownHttpStatusCodeException | HttpServerErrorException ex){
+        } catch (UnknownHttpStatusCodeException | HttpServerErrorException ex) {
             return false;
-        }
-        catch (HttpClientErrorException ex){
+        } catch (HttpClientErrorException ex) {
             return true;
         }
         return true;
     }
 
-    public void createDns(DnsCreateUpdateDto dnsCreateUpdateDto){
-        DnsEntry dnsEntry = dnsMapper.toEntity(dnsCreateUpdateDto);
-        if(!checkTarget(dnsEntry)){
-            throw new RuntimeException(); //TODO: Saubere Exception
-        }
-
+    public void createDns(DnsCreateUpdateDto dnsCreateUpdateDto) {
         List<DnsEntry> current = dnsRepository.findAllBySource(dnsCreateUpdateDto.getSource());
-        if(current.size() != 0){
+        if (current.size() != 0) {
             dnsRepository.deleteAll(current);
         }
-        templateService.writeTemplate(dnsCreateUpdateDto.getSource(),dnsCreateUpdateDto.getTarget());
+        DnsEntry dnsEntry = dnsMapper.toEntity(dnsCreateUpdateDto);
+        if (checkTarget(dnsEntry)) {
+            dnsEntry.setValid(true);
+            templateService.writeTemplate(dnsCreateUpdateDto.getSource(), dnsCreateUpdateDto.getTarget());
+        }
+        else
+        {
+            dnsEntry.setValid(false);
+        }
         dnsRepository.save(dnsEntry);
         reloadnginx();
     }
 
-    public List<DnsDto> getAll(){
+    public List<DnsDto> getAll() {
         List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
         return dnsMapper.toDto(entries);
 
     }
 
+    public void cleanUpInvalidEntries()
+    {
+        List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
+        for (DnsEntry dnsEntry : entries) {
+            if (dnsEntry != null) {
+                if (!checkTarget(dnsEntry))
+                {
+                    templateService.delete(dnsEntry.getSource());
+                    dnsEntry.setValid(false);
+                }else {
+                    if(!dnsEntry.getValid()){
+                        templateService.writeTemplate(dnsEntry.getSource(), dnsEntry.getTarget());
+                    }
+                }
+
+            }
+        }
+
+    }
+
 
     @EventListener(ApplicationReadyEvent.class)
-    public void writeAllEntries(){
-        if(activeProfile.equalsIgnoreCase("docker")) {
-            List<DnsDto> all = getAll();
-            for (DnsDto dnsDto : all) {
-               if(dnsDto != null) {
-                   templateService.writeTemplate(dnsDto.getSource(), dnsDto.getTarget());
-               }
+    public void writeAllEntries() {
+        if (activeProfile.equalsIgnoreCase("docker")) {
+            List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
+            for (DnsEntry dnsEntry : entries) {
+                if (dnsEntry != null) {
+                    if (checkTarget(dnsEntry)) {
+                        dnsEntry.setValid(true);
+                        templateService.writeTemplate(dnsEntry.getSource(), dnsEntry.getTarget());
+                    }
+                    else
+                    {
+                        dnsEntry.setValid(false);
+                    }
+
+                }
             }
             reloadnginx();
         }
     }
 
 
-    private void reloadnginx(){
-       executeBashCommand("kill -s HUP $(cat /var/run/nginx.pid)");
+    private void reloadnginx() {
+        cleanUpInvalidEntries();
+        executeBashCommand("kill -s HUP $(cat /var/run/nginx.pid)");
     }
 
-    public void delete(UUID id){
-        Optional<DnsEntry> dnsEntry =  dnsRepository.findById(id);
-        if(!dnsEntry.isPresent()){
+    public void delete(UUID id) {
+        Optional<DnsEntry> dnsEntry = dnsRepository.findById(id);
+        if (!dnsEntry.isPresent()) {
             throw new RuntimeException("Not Found");
         }
         templateService.delete(dnsEntry.get().getSource());
@@ -133,8 +164,6 @@ public class DnsService {
         }
         return success;
     }
-
-
 
 
 }

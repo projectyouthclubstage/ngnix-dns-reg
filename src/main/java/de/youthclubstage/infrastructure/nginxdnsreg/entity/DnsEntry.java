@@ -19,5 +19,7 @@ public class DnsEntry {
 
     private String target;
 
+    private Boolean valid;
+
 
 }

@@ -11,4 +11,6 @@ public class DnsDto {
     private String source;
 
     private String target;
+
+    private Boolean valid;
 }
