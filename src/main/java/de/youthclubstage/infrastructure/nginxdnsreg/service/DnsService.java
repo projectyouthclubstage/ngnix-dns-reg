@@ -68,7 +68,7 @@ public class DnsService {
             dnsEntry.setValid(false);
         }
         dnsRepository.save(dnsEntry);
-        reloadnginx();
+        reloadAndClean();
     }
 
     public List<DnsDto> getAll() {
@@ -87,6 +87,9 @@ public class DnsService {
                     templateService.delete(dnsEntry.getSource());
                     dnsEntry.setValid(false);
                 }else {
+                    if(dnsEntry.getValid() == null){
+                        dnsEntry.setValid(true);
+                    }
                     if(!dnsEntry.getValid()){
                         templateService.writeTemplate(dnsEntry.getSource(), dnsEntry.getTarget());
                     }
@@ -119,9 +122,14 @@ public class DnsService {
         }
     }
 
+    private void reloadAndClean(){
+        cleanUpInvalidEntries();
+        reloadnginx();
+    }
+
 
     private void reloadnginx() {
-        cleanUpInvalidEntries();
+
         executeBashCommand("kill -s HUP $(cat /var/run/nginx.pid)");
     }
 
@@ -132,7 +140,7 @@ public class DnsService {
         }
         templateService.delete(dnsEntry.get().getSource());
         dnsRepository.deleteById(id);
-        reloadnginx();
+        reloadAndClean();
     }
 
     public static boolean executeBashCommand(String command) {
