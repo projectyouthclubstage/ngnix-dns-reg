@@ -45,10 +45,13 @@ public class DnsService {
         try {
             RestTemplate restTemplate = new RestTemplate();
             final String response = restTemplate.getForObject("http://" + dnsEntry.getTarget(), String.class);
-        } catch (UnknownHttpStatusCodeException | HttpServerErrorException|UnknownHostException ex) {
+        } catch (UnknownHttpStatusCodeException | HttpServerErrorException ex) {
             return false;
         } catch (HttpClientErrorException ex) {
             return true;
+        }
+        catch (Exception ex){
+            return false;
         }
         return true;
     }
