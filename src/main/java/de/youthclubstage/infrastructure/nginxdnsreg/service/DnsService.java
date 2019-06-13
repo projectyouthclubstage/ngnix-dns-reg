@@ -10,9 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.UnknownHttpStatusCodeException;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +41,31 @@ public class DnsService {
         this.templateService = templateService;
     }
 
+    public boolean checkTarget(DnsEntry dnsEntry){
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            final String response = restTemplate.getForObject("http://" + dnsEntry.getTarget(), String.class);
+        }catch (UnknownHttpStatusCodeException | HttpServerErrorException ex){
+            return false;
+        }
+        catch (HttpClientErrorException ex){
+            return true;
+        }
+        return true;
+    }
+
     public void createDns(DnsCreateUpdateDto dnsCreateUpdateDto){
+        DnsEntry dnsEntry = dnsMapper.toEntity(dnsCreateUpdateDto);
+        if(!checkTarget(dnsEntry)){
+            throw new RuntimeException(); //TODO: Saubere Exception
+        }
+
         List<DnsEntry> current = dnsRepository.findAllBySource(dnsCreateUpdateDto.getSource());
         if(current.size() != 0){
             dnsRepository.deleteAll(current);
         }
         templateService.writeTemplate(dnsCreateUpdateDto.getSource(),dnsCreateUpdateDto.getTarget());
-        dnsRepository.save(dnsMapper.toEntity(dnsCreateUpdateDto));
+        dnsRepository.save(dnsEntry);
         reloadnginx();
     }
 
