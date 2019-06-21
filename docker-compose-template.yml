@@ -1,7 +1,7 @@
 version: "3"
 services:
-  nginx-dns-reg-service-{version}:
-    environment:
+  app:
+     environment:
     - REDISSERVER=redis
     - REDISPORT=6379
     ports:
@@ -14,11 +14,11 @@ services:
     build:
       context: .
       dockerfile: ../Dockerfile
-    image: 192.168.233.1:5000/nginx-dns-reg-service:{version}
+    image: {image}
     networks:
       dev:
         aliases:
-        - nginx-dns-reg-service-{version}
+         - {alias}
 volumes:
   templates:
     driver_opts:
