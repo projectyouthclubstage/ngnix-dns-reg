@@ -67,7 +67,7 @@ stages{
 
                         script{
                            if (env.BRANCH_NAME == 'master') {
-                             dockerDeploy(mybuildverison,registry,projektname,dns,dnsblue,port)
+                             dockerDeploy(mybuildverison,registry,projektname,"","","8080")
                            }
 
                           }
