@@ -4,8 +4,9 @@ package de.youthclubstage.infrastructure.nginxdnsreg.endpoint;
 import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsCreateUpdateDto;
 import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsDto;
 import de.youthclubstage.infrastructure.nginxdnsreg.service.DnsService;
-import org.apache.logging.log4j.LogManager;
+
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class DnsRegEndpoint {
 
     private final DnsService dnsService;
 
-    private static Logger log = LogManager.getLogger(DnsRegEndpoint.class)
+    private static Logger log = LoggerFactory.getLogger(DnsRegEndpoint.class);
 
     @Autowired
     public DnsRegEndpoint(DnsService dnsService){
