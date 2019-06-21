@@ -2,7 +2,7 @@ pipeline{
 
 agent none
   environment {
-    registry = "192.168.233.1:5000/nginx-dns-reg"
+    registry = "192.168.233.1:5000/nginx-dns-reg-service"
 
   }
 
@@ -10,14 +10,7 @@ agent none
   // Requeres at least one stage
 
 stages{
-    // Checkout source code
-    // This is required as Pipeline code is originally checkedout to
-    // Jenkins Master but this will also pull this same code to this slave
-    //stage('Git Checkout') {
-    // steps {
-    //   checkout
-    //  }
-    //}
+
 
     // Run Maven build, skipping tests
     stage('Build'){
@@ -73,11 +66,14 @@ stages{
                       //dockerImage = docker.build registry + ":$BUILD_NUMBER"
                       //dockerImage.push()
                       def version = sh (
-                          script: 'docker stack ls |grep nginx-dns-reg| cut -d \" \" -f1',
+                          script: 'docker stack ls |grep nginx-dns-reg-service| cut -d \" \" -f1',
                           returnStdout: true
                       ).trim()
-                      sh "docker stack rm "+version
-                      sh "docker stack deploy --compose-file target/docker-compose.yml nginx-dns-reg-"+"$BUILD_NUMBER"
+                      if(version != "")
+                      {
+                       sh "docker stack rm "+version
+                       }
+                      sh "docker stack deploy --compose-file target/docker-compose.yml nginx-dns-reg-service-"+"$BUILD_NUMBER"
                      }
                    }
        }

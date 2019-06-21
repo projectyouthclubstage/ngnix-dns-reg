@@ -11,8 +11,8 @@
 	<groupId>de.youth-club-stage.infrastructure</groupId>
 	<artifactId>nginx-dns-reg</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>nginx-dns-reg</name>
-	<description>Demo project for Spring Boot</description>
+	<name>nginx-dns-reg-service</name>
+	<description></description>
 
 	<properties>
 		<java.version>1.8</java.version>
