@@ -93,10 +93,6 @@ def getBuildVersion(String buildnr){
 
 def dockerDeploy(String mybuildverison,String registry, String projektname, String dns, String dnsblue, String port){
 
-                      if(version != "")
-                      {
-                        sh "docker stack rm "+version
-                      }
 
                       sh "mkdir -p target"
                       sh "rm -f target/*.yml"
@@ -106,6 +102,11 @@ def dockerDeploy(String mybuildverison,String registry, String projektname, Stri
                           script: 'docker stack ls |grep '+projektname+'| cut -d \" \" -f1',
                           returnStdout: true
                       ).trim()
+                      if(version != "")
+                      {
+                        sh "docker stack rm "+version
+                      }
+
                       //sh "docker stack rm "+version
                       sh "docker stack deploy --compose-file target/docker-compose.yml "+projektname+"-"+"$mybuildverison"
 
