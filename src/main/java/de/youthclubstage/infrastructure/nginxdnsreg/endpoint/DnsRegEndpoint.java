@@ -5,6 +5,7 @@ import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsCreateUpda
 import de.youthclubstage.infrastructure.nginxdnsreg.endpoint.model.DnsDto;
 import de.youthclubstage.infrastructure.nginxdnsreg.service.DnsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,12 @@ public class DnsRegEndpoint {
         this.dnsService = dnsService;
     }
 
-    @GetMapping(value = "dns", produces = "application/json")
+    @GetMapping(value = "dns", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<List<DnsDto>> getall(){
        return ResponseEntity.ok().body(dnsService.getAll());
     }
 
-    @PostMapping( value = "dns", consumes = "application/json")
+    @PostMapping( value = "dns", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     ResponseEntity<DnsDto> create(@RequestBody DnsCreateUpdateDto createUpdateDto){
         DnsDto dnsDto = dnsService.createDns(createUpdateDto);
         return ResponseEntity.ok(dnsDto);
