@@ -12,4 +12,5 @@ public interface DnsMapper {
     DnsEntry toEntity(DnsCreateUpdateDto source);
 
     List<DnsDto> toDto(List<DnsEntry> source);
+    DnsDto toDto(DnsEntry source);
 }

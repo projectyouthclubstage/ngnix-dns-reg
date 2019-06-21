@@ -56,7 +56,7 @@ public class DnsService {
         return true;
     }
 
-    public void createDns(DnsCreateUpdateDto dnsCreateUpdateDto) {
+    public DnsDto createDns(DnsCreateUpdateDto dnsCreateUpdateDto) {
         List<DnsEntry> current = dnsRepository.findAllBySource(dnsCreateUpdateDto.getSource());
         if (current.size() != 0) {
             dnsRepository.deleteAll(current);
@@ -72,6 +72,7 @@ public class DnsService {
         }
         dnsRepository.save(dnsEntry);
         reloadAndClean();
+        return dnsMapper.toDto(dnsEntry);
     }
 
     public List<DnsDto> getAll() {

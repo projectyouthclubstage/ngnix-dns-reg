@@ -28,9 +28,9 @@ public class DnsRegEndpoint {
     }
 
     @PostMapping( value = "dns", consumes = "application/json")
-    ResponseEntity<Void> create(@RequestBody DnsCreateUpdateDto createUpdateDto){
-        dnsService.createDns(createUpdateDto);
-        return ResponseEntity.noContent().build();
+    ResponseEntity<DnsDto> create(@RequestBody DnsCreateUpdateDto createUpdateDto){
+        DnsDto dnsDto = dnsService.createDns(createUpdateDto);
+        return ResponseEntity.ok(dnsDto);
     }
 
     @DeleteMapping( value = "dns/{id}")
