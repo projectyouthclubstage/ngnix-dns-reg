@@ -1,7 +1,7 @@
 version: "3"
 services:
   app:
-     environment:
+    environment:
     - REDISSERVER=redis
     - REDISPORT=6379
     ports:
