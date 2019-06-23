@@ -43,16 +43,17 @@ stages{
 
 
 
-       stage('docker')
+       stage('docker build')
        {
           agent {
                label 'master'
            }
            steps{
             script{
-               //sh "docker build ./ -t "+ registry + ":$BUILD_NUMBER"
-               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                if (env.BRANCH_NAME == 'master') {
+               dockerImage = docker.build registry + ":$mybuildverison"
                dockerImage.push()
+               }
               }
            }
        }
