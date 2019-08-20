@@ -2,13 +2,11 @@ package de.youthclubstage.infrastructure.nginxdnsreg.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-import org.springframework.data.redis.core.index.Indexed;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.UUID;
 
 @Data
-@RedisHash(value = "DnsEntry")
 public class DnsEntry {
 
     @Id

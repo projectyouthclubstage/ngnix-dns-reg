@@ -1,8 +1,12 @@
 spring:
   profiles: default
-redis:
-  server: 192.168.233.1
-  port: 6379
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      repositories:
+        enabled: true
+      database: nxdr
 cors:
   allowedOrigins: '*'
   allowedHeaders:
@@ -19,9 +23,13 @@ template:
 ---
 spring:
   profiles: docker
-redis:
-  server: ${REDISSERVER}
-  port: ${REDISPORT}
+  data:
+    mongodb:
+      host: ${MONGOSERVER}
+      port: ${MONGOPORT}
+      repositories:
+        enabled: true
+      database: nxdr
 cors:
   allowedOrigins: '*'
   allowedHeaders:

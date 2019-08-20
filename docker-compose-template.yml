@@ -2,8 +2,8 @@ version: "3"
 services:
   app:
     environment:
-    - REDISSERVER=redis
-    - REDISPORT=6379
+    - MONGOSERVER=nxdrmongodb
+    - MONGOPORT=27017
     ports:
     - "80:80"
     - "443:443"
