@@ -63,6 +63,7 @@ public class DnsService {
             dnsRepository.deleteAll(current);
         }
         DnsEntry dnsEntry = dnsMapper.toEntity(dnsCreateUpdateDto);
+        dnsEntry.setId(UUID.randomUUID());
         if (checkTarget(dnsEntry)) {
             dnsEntry.setValid(true);
             templateService.writeTemplate(dnsCreateUpdateDto.getSource(), dnsCreateUpdateDto.getTarget());
