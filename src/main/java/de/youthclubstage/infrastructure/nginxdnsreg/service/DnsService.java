@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -110,22 +111,48 @@ public class DnsService {
         if (activeProfile.equalsIgnoreCase("docker")) {
             List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
             for (DnsEntry dnsEntry : entries) {
-                if (dnsEntry != null) {
-                    if (checkTarget(dnsEntry)) {
-                        dnsEntry.setValid(true);
-                        templateService.writeTemplate(dnsEntry.getSource(), dnsEntry.getTarget());
-                    }
-                    else
-                    {
-                        dnsEntry.setValid(false);
-                    }
-
-                }
-                dnsRepository.save(dnsEntry);
+                checkValidAndSetIt(dnsEntry);
             }
             reloadnginx();
         }
     }
+
+    private boolean checkValidAndSetIt(DnsEntry dnsEntry) {
+        boolean valid = false;
+        if (dnsEntry != null) {
+            if (checkTarget(dnsEntry)) {
+                dnsEntry.setValid(true);
+                templateService.writeTemplate(dnsEntry.getSource(), dnsEntry.getTarget());
+                valid = true;
+            }
+            else
+            {
+                dnsEntry.setValid(false);
+                valid = false;
+            }
+            dnsRepository.save(dnsEntry);
+        }
+        return valid;
+    }
+
+    @Scheduled(fixedDelay = 60000)
+    public void refreshEntries() {
+        boolean change = false;
+        if (activeProfile.equalsIgnoreCase("docker")) {
+            List<DnsEntry> entries = new ArrayList<>(UtilClass.makeCollection(dnsRepository.findAll()));
+            for (DnsEntry dnsEntry : entries) {
+                boolean before = dnsEntry.getValid();
+                boolean current = checkValidAndSetIt(dnsEntry);
+                if(current != before){
+                    change = true;
+                }
+            }
+            if(change) {
+                reloadnginx();
+            }
+        }
+    }
+
 
     private void reloadAndClean(){
         cleanUpInvalidEntries();
